@@ -1,17 +1,5 @@
 from __future__ import division
-from math import isclose
-
-
-def greatest_common_divisor(a: int, b: int):
-    """Get the largest number that divides both inputs without remainder.
-
-    Implements the Euclidean Algorith:
-    an efficient method for computing the GCD of two numbers.
-    https://en.wikipedia.org/wiki/Euclidean_algorithm
-    """
-    while b != 0:
-        a, b = b, a % b
-    return a  # has the GCD once b=0
+from fractions import gcd
 
 
 class Rational(object):
@@ -45,21 +33,30 @@ class Rational(object):
         return self + negated_other
 
     def __mul__(self, other):
-        num = self.numer * other.numer
-        den = self.denom * other.denom
-        return Rational(num, den)
+        return Rational(
+            self.numer * other.numer,
+            self.denom * other.denom
+        )
 
     def __truediv__(self, other):
         return self * other.reciprocal
 
     def __abs__(self):
-        return Rational(abs(self.numer), abs(self.denom))
+        return Rational(
+            abs(self.numer),
+            abs(self.denom)
+        )
 
     def __pow__(self, power: int):
-        if power < 0:
+        if power > 0:
+            return Rational(
+                self.numer ** power,
+                self.denom ** power
+            )
+        elif power == 0:
+            return Rational(1, 1)
+        else:
             return self.reciprocal, -power
-
-        return Rational(self.numer ** power, self.denom ** power)
 
     def __rpow__(self, base):
         return base ** self.decimal
