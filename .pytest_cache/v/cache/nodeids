@@ -67,7 +67,6 @@
   "rational-numbers/rational_numbers_test.py::RationalNumbersTest::test_divide_positive_by_negative",
   "rational-numbers/rational_numbers_test.py::RationalNumbersTest::test_divide_two_negative",
   "rational-numbers/rational_numbers_test.py::RationalNumbersTest::test_divide_two_positive",
-  "rational-numbers/rational_numbers_test.py::RationalNumbersTest::test_gcd",
   "rational-numbers/rational_numbers_test.py::RationalNumbersTest::test_multiply_by_one",
   "rational-numbers/rational_numbers_test.py::RationalNumbersTest::test_multiply_by_zero",
   "rational-numbers/rational_numbers_test.py::RationalNumbersTest::test_multiply_negative_by_positive",

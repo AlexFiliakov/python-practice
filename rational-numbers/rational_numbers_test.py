@@ -127,11 +127,6 @@ class RationalNumbersTest(unittest.TestCase):
     def test_reduce_positive(self):
         self.assertEqual(Rational(2, 4), Rational(1, 2))
 
-    def test_gcd(self):
-        from rational_numbers import greatest_common_divisor
-        gcd = greatest_common_divisor(2, 12)
-        self.assertEqual(gcd, 2)
-
     def test_rational_init(self):
         p = Rational(2, 4)
         self.assertEqual((p.numer, p.denom), (1, 2))

@@ -11,9 +11,9 @@ class Rational(object):
         """
         if denom == 0:
             raise ValueError('Not a Number: invalid denominator')
-        gcd = greatest_common_divisor(numer, denom)
-        self.numer = int(numer / gcd)
-        self.denom = int(denom / gcd)
+        _gcd = gcd(numer, denom)  # will make denom positive
+        self.numer = int(numer / _gcd)
+        self.denom = int(denom / _gcd)
 
     def __eq__(self, other):
         return self.numer == other.numer and self.denom == other.denom
@@ -22,7 +22,7 @@ class Rational(object):
         return f'{self.numer}/{self.denom}'
 
     def __add__(self, other):
-        denom_gcd = greatest_common_divisor(self.denom, other.denom)
+        denom_gcd = gcd(self.denom, other.denom)
         num = sum([other.denom / denom_gcd * self.numer,
                    self.denom / denom_gcd * other.numer])
         den = self.denom / denom_gcd * other.denom
