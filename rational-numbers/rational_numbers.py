@@ -2,32 +2,30 @@ from __future__ import division
 from math import isclose
 
 
+def greatest_common_divisor(a: int, b: int):
+    """Get the largest number that divides both inputs without remainder.
+
+    Implements the Euclidean Algorith:
+    an efficient method for computing the GCD of two numbers.
+    https://en.wikipedia.org/wiki/Euclidean_algorithm
+    """
+    while b != 0:
+        a, b = b, a % b
+    return a  # has the GCD once b=0
+
+
 class Rational(object):
-    def __init__(self, numer, denom):
-        """Rationals are defined as """
-        if numer is None:
-            raise ValueError('Not a Number: invalid numerator')
-        if denom is None or float(denom) == 0:
+    def __init__(self, numer: int, denom: int):
+        """a rational number is any number that can be expressed
+        as the fraction (p/q) of a numerator and a denominator.
+
+        We store the smallest coprime numerator and denominator.
+        """
+        if denom == 0:
             raise ValueError('Not a Number: invalid denominator')
-        self.numer = float(numer)
-        self.denom = float(denom)
-
-    def convert_fraction_to_integers(numer: float, denom: float):
-        """Return a fraction of integers equivalent to input of decimals.
-        """
-        while not isclose(numer, int(numer)) and not isclose(denom, int(denom)):
-            numer, denom = numer * 10, denom * 10
-
-        return int(numer), int(denom)
-
-    def euclidiean_algo(a: int, b: int):
-        """an efficient method for computing the greatest common divisor (GCD)
-        of two numbers the largest number that divides both of them without leaving a remainder.
-        https://en.wikipedia.org/wiki/Euclidean_algorithm
-
-        Returns: the GCD
-        """
-        pass
+        gcd = greatest_common_divisor(numer, denom)
+        self.numer = int(numer / gcd)
+        self.denom = int(denom / gcd)
 
     def __eq__(self, other):
         return self.numer == other.numer and self.denom == other.denom
@@ -36,22 +34,40 @@ class Rational(object):
         return f'{self.numer}/{self.denom}'
 
     def __add__(self, other):
-        pass
+        denom_gcd = greatest_common_divisor(self.denom, other.denom)
+        num = sum([other.denom / denom_gcd * self.numer,
+                   self.denom / denom_gcd * other.numer])
+        den = self.denom / denom_gcd * other.denom
+        return Rational(num, den)
 
     def __sub__(self, other):
-        pass
+        negated_other = Rational(-other.numer, other.denom)
+        return self + negated_other
 
     def __mul__(self, other):
-        pass
+        num = self.numer * other.numer
+        den = self.denom * other.denom
+        return Rational(num, den)
 
     def __truediv__(self, other):
-        pass
+        return self * other.reciprocal
 
     def __abs__(self):
-        pass
+        return Rational(abs(self.numer), abs(self.denom))
 
-    def __pow__(self, power):
-        pass
+    def __pow__(self, power: int):
+        if power < 0:
+            return self.reciprocal, -power
+
+        return Rational(self.numer ** power, self.denom ** power)
 
     def __rpow__(self, base):
-        pass
+        return base ** self.decimal
+
+    @property
+    def reciprocal(self):
+        return Rational(self.denom, self.numer)
+
+    @property
+    def decimal(self):
+        return float(self.numer) / self.denom

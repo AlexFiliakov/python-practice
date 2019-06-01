@@ -49,6 +49,14 @@ class RationalNumbersTest(unittest.TestCase):
     def test_multiply_reciprocal(self):
         self.assertEqual(Rational(1, 2) * Rational(2, 1), Rational(1, 1))
 
+    def test_reciprocal(self):
+        reciprocal = Rational(1, 2).reciprocal
+        self.assertEqual(reciprocal, Rational(2, 1))
+
+    def test_decimal(self):
+        decimal = Rational(3, 2).decimal
+        self.assertAlmostEqual(decimal, 1.5)
+
     def test_multiply_by_one(self):
         self.assertEqual(Rational(1, 2) * Rational(1, 1), Rational(1, 2))
 
@@ -119,13 +127,14 @@ class RationalNumbersTest(unittest.TestCase):
     def test_reduce_positive(self):
         self.assertEqual(Rational(2, 4), Rational(1, 2))
 
-    def test_convert_fraction_to_integers(self):
-        result = Rational.convert_fraction_to_integers(.1, .2)
-        self.assertEqual(result, (1, 2))
-
-    def test_euclidiean_algo(self):
-        gcd = Rational.euclidiean_algo(2, 12)
+    def test_gcd(self):
+        from rational_numbers import greatest_common_divisor
+        gcd = greatest_common_divisor(2, 12)
         self.assertEqual(gcd, 2)
+
+    def test_rational_init(self):
+        p = Rational(2, 4)
+        self.assertEqual((p.numer, p.denom), (1, 2))
 
     def test_reduce_negative(self):
         self.assertEqual(Rational(-4, 6), Rational(-2, 3))
