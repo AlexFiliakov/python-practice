@@ -1,11 +1,9 @@
-def distance(strand_a, strand_b):
-    """Exercism solution to the Distance challenge.
+def distance(a: str, b: str):
+    """Returns the number of character differences between two strings.
 
-    Arguments:
-        strand_a {int} -- parm...
-        strand_b {int} -- parm...
+    Exercism solution to the Distance challenge.
     """
-    if len(strand_a) != len(strand_b):
+    if len(a) != len(b):
         raise ValueError('Strands must be same length!')
 
-    return len([1 for a, b in zip(strand_a, strand_b) if a != b])
+    return len([1 for n, m in zip(a, b) if n != m])
