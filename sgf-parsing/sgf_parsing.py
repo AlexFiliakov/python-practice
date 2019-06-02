@@ -36,26 +36,23 @@ def parse(input: str):
     escapes = {r'\]': '_-esc_right_square_bracket-_'}
     for esc_key, esc_val in escapes.items():
         input = input.replace(esc_key, esc_val)
-    empty_tree_error = ValueError('Please provide an SGF Tree')
-    if input is None or input == '':
-        raise empty_tree_error
 
+    node_sep = ';'
     properties = {}
-    expect_key = False
+    children = []
+    if input is None or input == '':
+        raise ValueError('Please provide an SGF Tree')
     if len(input) < 3:
         raise ValueError('SGF Tree is too short!')
     if input[0] != '(':
         raise ValueError('SGF Tree missing (')
     if input[-1] != ')':
         raise ValueError('SGF Tree missing )')
-
-    node_sep = ';'
     if input[1] != node_sep:
         raise ValueError('SGF Tree missing ' + node_sep)
 
     input = input[2:-1]
 
-    children = []
     next_key = ''
     next_value = []
     while not len(input) == 0:
@@ -71,16 +68,16 @@ def parse(input: str):
 
         next_key_len = input.find('[')
         if next_key == '':
-            if next_key_len < 0:
+            if next_key_len <= 0:
                 raise ValueError('SGF Tree missing key')
             next_key = input[0:next_key_len]
-            if next_key == '' or not next_key.isalpha():
-                raise ValueError(f'SGF key missing')
+            if not next_key.isalpha():
+                raise ValueError(f'SGF Tree key must have only letters')
             if not next_key.isupper():
                 raise ValueError(f'SGF key not upper case: {next_key}')
         input = input[next_key_len + 1:]
-        next_value_len = input.find(']')
 
+        next_value_len = input.find(']')
         if next_value_len < 0:
             raise ValueError('SGF key missing value')
         next_value.append(input[0:next_value_len])
